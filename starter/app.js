@@ -3,18 +3,24 @@ const app = express()
 const tasks = require('./routes/tasks')
 const connectDB = require('./db/connect')
 require('dotenv').config()
-const notFound = require('./middleware/not-found');
-const errorHandlerMiddleware = require('./middleware/error-handler');
+const notFound = require('./middleware/not-found')  
+const errorHandlerMiddleware = require('./middleware/error-handler')
+const cors = require('cors')
+const corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200,
+  }
 //middlware
-app.use(express.static('./public'))
+//app.use(express.static('./public'))
+app.use(cors(corsOptions))
 app.use(express.json())
-
 
 //routes
 
 app.use('/api/v1/tasks', tasks)
 app.use(notFound)
 app.use(errorHandlerMiddleware)
+
 //https://www.youtube.com/watch?v=qwfE7fSVaZM&t=232s
 
 //what routes are needed ? 
@@ -46,3 +52,4 @@ start()
 
 
 
+//https://www.section.io/engineering-education/how-to-setup-nodejs-express-for-react/
