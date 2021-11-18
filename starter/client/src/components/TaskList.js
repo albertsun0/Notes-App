@@ -6,6 +6,18 @@ import Task from './Task'
 const TaskList = () => {
     const [tasks, setTasks] = useState([])
     
+    const toggleComplete = async (id, value) => {
+        console.log(value)
+        axios.patch(`http://localhost:3000/api/v1/tasks/${id}`, {completed:value})
+        .then(function(response){
+            console.log(response)
+            updateTasks()
+        })
+        .catch(function(error){
+            console.log(error)
+        })
+    }
+
     const addTask = async () =>{
         const task = document.getElementById("input").value;
         axios.post("http://localhost:3000/api/v1/tasks", {name:task})
@@ -16,7 +28,6 @@ const TaskList = () => {
         .catch(function(error){
             console.log(error)
         })
-        
     }
 
     const deleteTask = async (id) =>{
@@ -46,7 +57,6 @@ const TaskList = () => {
 
     const refresh = (data) => {
         console.log(data)
-        console.log(data.length)
         setTasks(data)
     } 
 
@@ -60,7 +70,7 @@ const TaskList = () => {
             {tasks && (
                 tasks.map((task) =>{
                     console.log(task)
-                    return <Task key={task._id} name = {task.name} complete = {task.completed} id = {task._id} delete = {deleteTask}/>
+                    return <Task key={task._id} name = {task.name} complete = {task.completed} id = {task._id} delete = {deleteTask} toggleComplete = {toggleComplete}/>
                 }) 
             )}
             
