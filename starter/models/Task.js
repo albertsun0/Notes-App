@@ -10,7 +10,34 @@ const TaskSchema = new mongoose.Schema({
     completed:{
         type:Boolean,
         default:false
+    },
+    due:{
+        type:Date,
+    },
+    stress:{
+        type:Number,
+        defual:0,
+    },
+    importance:{
+        type:Number,
+        defualt:0,
     }
 })
 
 module.exports = mongoose.model('Task', TaskSchema)
+
+/*
+ - - - - - - - - - - 
+
+fix marking as completed
+editing task text
+
+task due date
+sort by due data
+
+stress/importance
+
+add/remove task animation 
+
+
+*/

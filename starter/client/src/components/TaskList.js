@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Task from './Task'
-
+import Options from './Options'
 const TaskList = () => {
     const [tasks, setTasks] = useState([])
     
@@ -20,7 +20,14 @@ const TaskList = () => {
 
     const addTask = async () =>{
         const task = document.getElementById("input").value;
-        axios.post("http://localhost:3000/api/v1/tasks", {name:task})
+        axios.post("http://localhost:3000/api/v1/tasks", 
+            {
+                name:task,
+                stress:0,
+                importance:1,
+                due: new Date()
+            }
+        )
         .then(function(response){
             console.log(response)
             updateTasks()
@@ -73,14 +80,24 @@ const TaskList = () => {
                 <input type = "text" class = "w-5/6 border-2 mr-4 rounded-md dark:bg-gray-600 dark:border-transparent text-lg pl-4" id="input" onKeyDown={handleKeyDown}></input>
                 <button onClick = {() => addTask()} class = "p-4 bg-green-200 rounded-md flex-grow dark:bg-green-600"> Add Task</button>
             </div>
-            
+            <Options/>
             {tasks && (
                 tasks.map((task) =>{
                     console.log(task)
-                    return <Task key={task._id} name = {task.name} complete = {task.completed} id = {task._id} delete = {deleteTask} toggleComplete = {toggleComplete}/>
+                    return <Task 
+                        key={task._id} 
+                        name = {task.name} 
+                        complete = {task.completed} 
+                        stress = {task.stress}
+                        importance = {task.importance}
+                        id = {task._id} 
+                        delete = {deleteTask} 
+                        toggleComplete = {toggleComplete}
+                    
+                    />
                 }) 
             )}
-            {tasks.length == 0 && <p class = "w-full text-center mt-10">All done!</p>}
+            {tasks.length === 0 && <p class = "w-full text-center mt-10">All done!</p>}
         </div>
     )
 }
